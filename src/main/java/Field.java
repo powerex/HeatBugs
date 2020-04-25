@@ -52,6 +52,16 @@ public class Field {
         return t[x][y];
     }
 
+    public double getAverageTemperatureEnvironment() {
+        double sum = 0.0;
+        for (int i=0; i<height; ++i) {
+            for (int j=0; j<width; j++) {
+                sum += t[i][j];
+            }
+        }
+        return sum / (height*width);
+    }
+
     private double getAverageTemp(int i, int j) {
 
         double sum = .0;
@@ -182,7 +192,6 @@ public class Field {
             }
 
         }
-//        System.out.println("("+nearestPoint.x+";"+nearestPoint.y+")");
         return nearestPoint;
     }
 }

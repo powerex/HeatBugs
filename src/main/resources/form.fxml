@@ -13,7 +13,10 @@
    <children>
       <Canvas fx:id="canvas" height="600.0" layoutX="21.0" layoutY="21.0" onMouseClicked="#getInfo" width="800.0" AnchorPane.topAnchor="20.0" />
       <Button fx:id="button" layoutX="685.0" layoutY="31.0" mnemonicParsing="false" onAction="#go" prefHeight="25.0" prefWidth="200.0" text="Модель" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
-      <Button fx:id="step" layoutX="837.0" layoutY="53.0" mnemonicParsing="false" onAction="#step" prefHeight="25.0" prefWidth="200.0" text="Старт" AnchorPane.rightAnchor="20.0" />
-      <TextArea fx:id="area" layoutX="837.0" layoutY="95.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.rightAnchor="20.0" />
+      <Button fx:id="buttonStart" layoutX="837.0" layoutY="53.0" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="200.0" text="Старт" AnchorPane.rightAnchor="20.0" />
+      <TextArea fx:id="area" layoutX="837.0" layoutY="155.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.rightAnchor="20.0" />
+      <Label fx:id="labelStep" layoutX="837.0" layoutY="109.0" prefHeight="15.0" prefWidth="200.0" text="Крок: 0" />
+      <Button fx:id="buttonStop" layoutX="837.0" layoutY="78.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Стоп" />
+      <Label fx:id="averageTemperature" layoutX="837.0" layoutY="130.0" text="Середня температура: -" />
    </children>
 </AnchorPane>

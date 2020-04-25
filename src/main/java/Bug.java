@@ -44,11 +44,9 @@ public class Bug {
 
         if (rnd.nextDouble() < probabilityRandomMove) {
             randomMove();
-//            System.out.println("Random move");
         }
         else if (getUnhapiness() > tolerance) {
             directMove();
-//            System.out.println("Direct move");
         }
     }
 
@@ -66,7 +64,6 @@ public class Bug {
     private void directMove() {
         Position goalPosition = field.getNearestIdealPoint(idealTemp, position);
         if (goalPosition != null) {
-            if (id == 1) System.out.println(goalPosition);
             int dx = position.getDx(goalPosition);
             int dy = position.getDy(goalPosition);
             int tempDx = dx;
