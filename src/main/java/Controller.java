@@ -18,20 +18,20 @@ public class Controller {
 
     public void go(ActionEvent actionEvent) {
 
-        f = new Field(20, 20, 0.95, 0.95);
+        f = new Field(40, 30, 0.99, 0.2);
         render = new Render(f, canvas);
         render.repaintField();
 
-        Bug bug1 = new Bug(0.1, 50, 70);
-        Bug bug2 = new Bug(0.1, 50, 70);
-        Bug bug3 = new Bug(0.1, 10, 70);
-        Bug bug4 = new Bug(0.1, 50, 70);
-        Bug bug5 = new Bug(0.1, 80, 70);
-        f.addBug(bug1, new Position(10, 8));
-        f.addBug(bug2, new Position(10, 10));
-        f.addBug(bug3, new Position(11, 9));
-        f.addBug(bug4, new Position(9, 9));
-        f.addBug(bug5, new Position(12, 8));
+        Bug bug1 = new Bug(0.1, 10, 30);
+        Bug bug2 = new Bug(0.1, 50, 30);
+        Bug bug3 = new Bug(0.1, 50, 30);
+        Bug bug4 = new Bug(0.1, 80, 0);
+        Bug bug5 = new Bug(0.1, 5, 80);
+        f.addBug(bug1, new Position(19, 18));
+        f.addBug(bug2, new Position(1, 1));
+        f.addBug(bug3, new Position(19, 1));
+        f.addBug(bug4, new Position(1, 19));
+        f.addBug(bug5, new Position(10, 10));
 
         render.repaintBugs();
 
@@ -41,7 +41,6 @@ public class Controller {
 
     public void step(ActionEvent actionEvent) {
         f.iterate();
-        step.setText(String.valueOf(f.getH(10,8)));
         render.repaintField();
         render.repaintBugs();
     }

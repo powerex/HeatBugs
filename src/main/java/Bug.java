@@ -2,16 +2,19 @@ import java.util.Random;
 
 public class Bug {
 
+    private static int ID = 0;
     private Field field;
     private Position position;
 
+    private int id;
     private double tolerance;
     private double idealTemp;
-    private double probabilityRandomMove = 0.5;
+    private double probabilityRandomMove = 0.1;
     private double heatingPower;
     Random rnd = new Random();
 
     public Bug(double tolerance, double idealTemp, double heatingPower) {
+        this.id = ++ID;
         this.tolerance = tolerance;
         this.idealTemp = idealTemp;
         this.heatingPower = heatingPower;
@@ -38,10 +41,15 @@ public class Bug {
     }
 
     public void refresh() {
-        if (getUnhapiness() < tolerance)
-            directMove();
-        else if (rnd.nextDouble() < probabilityRandomMove)
+
+        if (rnd.nextDouble() < probabilityRandomMove) {
             randomMove();
+//            System.out.println("Random move");
+        }
+        else if (getUnhapiness() > tolerance) {
+            directMove();
+//            System.out.println("Direct move");
+        }
     }
 
     private void randomMove() {
@@ -56,6 +64,26 @@ public class Bug {
     }
 
     private void directMove() {
+        Position goalPosition = field.getNearestIdealPoint(idealTemp, position);
+        if (goalPosition != null) {
+            if (id == 1) System.out.println(goalPosition);
+            int dx = position.getDx(goalPosition);
+            int dy = position.getDy(goalPosition);
+            int tempDx = dx;
+
+            if (field.isTakeUp(new Position(position.x+dx, position.y+dy))) {
+                dx = 0;
+                if (field.isTakeUp(new Position(position.x + dx, position.y + dy))) {
+                    dx = tempDx;
+                    dy = 0;
+                    if (field.isTakeUp(new Position(position.x + dx, position.y + dy))) {
+                        dx = 0;
+                    }
+                }
+            }
+            position.x += dx;
+            position.y += dy;
+        }
     }
 
     public double getMaxIdealTemp() {
@@ -66,5 +94,9 @@ public class Bug {
     public double getMinIdealTemp() {
         double t = idealTemp - (field.MAXTEMP * tolerance) / 2;
         return (t > 0) ? t : 0;
+    }
+
+    public int getId() {
+        return id;
     }
 }

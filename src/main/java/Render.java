@@ -1,6 +1,7 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class Render {
 
@@ -33,6 +34,7 @@ public class Render {
 
         gc.setStroke(Color.WHITE);
         gc.setLineWidth(1);
+        gc.setFont(new Font(10));
 
         hueCoeficient = 210 / field.MAXTEMP;
         brightnessCoeficient = (maxBrightness - minBrightness) / field.MAXTEMP;
@@ -57,13 +59,19 @@ public class Render {
     public void repaintBugs() {
         if (field.getBugs() != null) {
             for (Bug b: field.getBugs()) {
-                if (b.equals(selectedBug))
+                if (b.equals(selectedBug)) {
                     gc.setFill(Color.BLACK);
-                else
+                    gc.setStroke(Color.WHITE);
+                }
+                else {
                     gc.setFill(Color.WHITE);
+                    gc.setStroke(Color.BLACK);
+                }
                 gc.fillOval(b.getPosition().x*cellSize + cellSize*0.2, b.getPosition().y*cellSize + cellSize*0.2, cellSize*0.6, cellSize*0.6);
+                gc.strokeText(String.valueOf(b.getId()),b.getPosition().x*cellSize + cellSize*0.35, b.getPosition().y*cellSize + cellSize*0.65);
             }
         }
+        gc.setStroke(Color.WHITE);
     }
 
 }

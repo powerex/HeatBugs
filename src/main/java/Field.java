@@ -3,6 +3,7 @@ import java.util.List;
 
 public class Field {
 
+    private static final double EPS = 1e-5;
     private double[][] t;
     private List<Bug> bugs;
     private int width;
@@ -13,16 +14,16 @@ public class Field {
     public Field(int width, int height, double intensityEvaporate, double spreadRate) {
         MAXTEMP = 100;
 
-        this.width = width;
-        this.height = height;
+        this.width = height;
+        this.height = width;
         this.intensityEvaporate = intensityEvaporate;
         this.spreadRate = spreadRate;
 
-        t = new double[height][width];
+        t = new double[width][height];
 
-        for (int i=0; i<height; i++) {
-            for (int j=0; j<width; j++) {
-                t[i][j] = ((double)i+j) / (width + height) * MAXTEMP;
+        for (int i=0; i<width; i++) {
+            for (int j=0; j<height; j++) {
+                t[i][j] = ((double)i+j) / (height + width) * MAXTEMP;
             }
         }
     }
@@ -146,5 +147,42 @@ public class Field {
                 return bug;
         }
         return null;
+    }
+
+    public Position getNearestIdealPoint(double idealTemperature, Position currentPoint) {
+        List<Position> nearestPointList = new LinkedList<Position>();
+        double minDifference = Double.MAX_VALUE;
+
+        for (int j=0; j<width; j++) {
+            for (int i=0; i<height; i++) {
+                double difference = Math.abs(t[i][j] - idealTemperature);
+                if (difference < minDifference) {
+                    minDifference = difference;
+                    nearestPointList.clear();
+                    nearestPointList.add(new Position(i,j));
+                }
+                else if (Math.abs(difference - minDifference) < EPS) {
+                    nearestPointList.add(new Position(i,j));
+                }
+            }
+        }
+
+        if (nearestPointList.size() == 0)
+            return null;
+        if (nearestPointList.size() == 1)
+            return nearestPointList.get(0);
+
+        Position nearestPoint = nearestPointList.get(0);
+        double distance = Double.MAX_VALUE;
+        for (Position point: nearestPointList) {
+            double d = Math.pow((currentPoint.x - point.x),2) + Math.pow((nearestPoint.y - point.y),2);
+            if (d < distance) {
+                distance = d;
+                nearestPoint = point;
+            }
+
+        }
+//        System.out.println("("+nearestPoint.x+";"+nearestPoint.y+")");
+        return nearestPoint;
     }
 }
