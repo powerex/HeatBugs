@@ -6,11 +6,10 @@ public class Bug {
     private Field field;
     private Position position;
 
-    private int id;
-    private double tolerance;
-    private double idealTemp;
-    private double probabilityRandomMove = 0.1;
-    private double heatingPower;
+    private final int id;
+    private final double tolerance;
+    private final double idealTemp;
+    private final double heatingPower;
     Random rnd = new Random();
 
     public Bug(double tolerance, double idealTemp, double heatingPower) {
@@ -29,7 +28,7 @@ public class Bug {
     }
 
     public double getUnhapiness() {
-        return Math.abs( field.getH(position) - idealTemp ) / field.MAXTEMP;
+        return Math.abs( field.getH(position) - idealTemp ) / Field.MAXTEMP;
     }
 
     public double getHeatingPower() {
@@ -42,6 +41,7 @@ public class Bug {
 
     public void refresh() {
 
+        double probabilityRandomMove = 0.1;
         if (rnd.nextDouble() < probabilityRandomMove) {
             randomMove();
         }
@@ -78,19 +78,12 @@ public class Bug {
                     }
                 }
             }
-            position.x += dx;
-            position.y += dy;
+            if ( position.x + dx < field.getWidth() && position.x + dx >= 0) {
+                position.x += dx;
+            }
+            if (position.y + dy < field.getHeight() && position.y + dy >= 0)
+                position.y += dy;
         }
-    }
-
-    public double getMaxIdealTemp() {
-        double t = idealTemp + (field.MAXTEMP * tolerance) / 2;
-        return (t < field.MAXTEMP) ? t : field.MAXTEMP;
-    }
-
-    public double getMinIdealTemp() {
-        double t = idealTemp - (field.MAXTEMP * tolerance) / 2;
-        return (t > 0) ? t : 0;
     }
 
     public int getId() {

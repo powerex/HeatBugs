@@ -106,9 +106,18 @@ public class Field {
     }
 
     public void iterate() {
-        if (bugs != null)
-        for (Bug b: bugs) {
-            t[b.getPosition().x][b.getPosition().y] += b.getHeatingPower();
+        if (bugs != null) {
+
+                for (Bug b : bugs) {
+                    try {
+                        t[b.getPosition().x][b.getPosition().y] += b.getHeatingPower();
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        System.err.println("X: " + b.getPosition().x);
+                        System.err.println("Y: " + b.getPosition().y);
+                        System.err.println("Bug: " + b.getId());
+                    }
+                }
         }
 
         double tt[][] =  new double[height][width];

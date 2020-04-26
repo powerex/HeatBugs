@@ -1,6 +1,5 @@
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -69,7 +68,7 @@ public class Controller {
                     }.step(s));
 
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(100);
                     } catch (InterruptedException interrupted) {
                         if (isCancelled()) {
                             updateMessage("Моделювання завершено");
@@ -87,7 +86,7 @@ public class Controller {
         };
     }
 
-    public void startModeling(ActionEvent event) {
+    public void startModeling() {
         if (task != null && task.isRunning()) {
             task.cancel();
         }
@@ -99,40 +98,47 @@ public class Controller {
 
         labelStep.textProperty().bind(task.messageProperty());
         buttonStart.visibleProperty().bind(task.runningProperty().not());
-//        buttonStart.disableProperty()
         buttonStop.visibleProperty().bind(task.runningProperty());
-//        averageTemperature.textProperty().bind("Середня температура: " + String.format("%.2f",(Integer)task.getValue()));
     }
 
-    public void stopModeling(ActionEvent event) {
+    public void stopModeling() {
         if (task != null)
             task.cancel();
     }
 
-    public void go(ActionEvent actionEvent) {
+    public void go() {
 
-        f = new Field(40, 30, 0.99, 0.2);
+        f = new Field(32, 24, 0.99, 0.25);
         render = new Render(f, canvas);
         render.repaintField();
 
-        Bug bug1 = new Bug(0.1, 10, 30);
-        Bug bug2 = new Bug(0.1, 50, 30);
-        Bug bug3 = new Bug(0.1, 50, 30);
-        Bug bug4 = new Bug(0.1, 80, 0);
-        Bug bug5 = new Bug(0.1, 5, 80);
+        double tolerance = 0.2;
+        Bug bug1 = new Bug(tolerance, 25, 45);
+        Bug bug2 = new Bug(tolerance, 50, 40);
+        Bug bug3 = new Bug(tolerance, 50, 40);
+        Bug bug4 = new Bug(tolerance, 80, 30);
+        Bug bug5 = new Bug(tolerance, 15, 90);
+        Bug bug6 = new Bug(tolerance, 70, 90);
+        Bug bug7 = new Bug(tolerance, 40, 60);
+        Bug bug8 = new Bug(tolerance, 5, 0);
+        Bug bug9 = new Bug(tolerance, 20, 20);
         f.addBug(bug1, new Position(19, 18));
         f.addBug(bug2, new Position(1, 1));
         f.addBug(bug3, new Position(19, 1));
         f.addBug(bug4, new Position(1, 19));
         f.addBug(bug5, new Position(10, 10));
+        f.addBug(bug6, new Position(12, 10));
+        f.addBug(bug7, new Position(2, 15));
+        f.addBug(bug8, new Position(3, 15));
+        f.addBug(bug9, new Position(5, 18));
 
         render.repaintBugs();
         buttonStart.setVisible(true);
 
     }
 
-    public void start(ActionEvent actionEvent) {
-        startModeling(null);
+    public void start() {
+        startModeling();
     }
 
     public void getInfo(MouseEvent mouseEvent) {

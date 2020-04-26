@@ -5,16 +5,15 @@ import javafx.scene.text.Font;
 
 public class Render {
 
-    private Field field;
-    private GraphicsContext gc;
+    private final Field field;
+    private final GraphicsContext gc;
     private Bug selectedBug = null;
 
     private final double minBrightness = 0.4;
-    private final double maxBrightness = 1.0;
 
-    private int cellSize = 20;
-    private double hueCoeficient;
-    private double brightnessCoeficient;
+    private final int cellSize = 30;
+    private final double hueCoeficient;
+    private final double brightnessCoeficient;
 
     public Bug getSelectedBug() {
         return selectedBug;
@@ -34,10 +33,11 @@ public class Render {
 
         gc.setStroke(Color.WHITE);
         gc.setLineWidth(1);
-        gc.setFont(new Font(10));
+        gc.setFont(new Font(12));
 
-        hueCoeficient = 210 / field.MAXTEMP;
-        brightnessCoeficient = (maxBrightness - minBrightness) / field.MAXTEMP;
+        hueCoeficient = 210 / Field.MAXTEMP;
+        double maxBrightness = 1.0;
+        brightnessCoeficient = (maxBrightness - minBrightness) / Field.MAXTEMP;
 
     }
 
@@ -68,7 +68,7 @@ public class Render {
                     gc.setStroke(Color.BLACK);
                 }
                 gc.fillOval(b.getPosition().x*cellSize + cellSize*0.2, b.getPosition().y*cellSize + cellSize*0.2, cellSize*0.6, cellSize*0.6);
-                gc.strokeText(String.valueOf(b.getId()),b.getPosition().x*cellSize + cellSize*0.35, b.getPosition().y*cellSize + cellSize*0.65);
+                gc.strokeText(String.valueOf(b.getId()),b.getPosition().x*cellSize + cellSize*0.37, b.getPosition().y*cellSize + cellSize*0.65);
             }
         }
         gc.setStroke(Color.WHITE);
