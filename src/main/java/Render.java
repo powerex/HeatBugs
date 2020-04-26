@@ -49,9 +49,9 @@ public class Render {
     }
 
     public void repaintField() {
-        for (int i=0; i<field.getHeight(); i++) {
-            for (int j=0; j<field.getWidth(); j++) {
-                drawCell(i, j);
+        for (int h=0; h<field.getHeight(); h++) {
+            for (int w=0; w<field.getWidth(); w++) {
+                drawCell(w, h);
             }
         }
     }
@@ -67,8 +67,8 @@ public class Render {
                     gc.setFill(Color.WHITE);
                     gc.setStroke(Color.BLACK);
                 }
-                gc.fillOval(b.getPosition().x*cellSize + cellSize*0.2, b.getPosition().y*cellSize + cellSize*0.2, cellSize*0.6, cellSize*0.6);
-                gc.strokeText(String.valueOf(b.getId()),b.getPosition().x*cellSize + cellSize*0.37, b.getPosition().y*cellSize + cellSize*0.65);
+                gc.fillOval(b.getPosition().width *cellSize + cellSize*0.2, b.getPosition().height *cellSize + cellSize*0.2, cellSize*0.6, cellSize*0.6);
+                gc.strokeText(String.valueOf(b.getId()),b.getPosition().width *cellSize + cellSize*0.37, b.getPosition().height *cellSize + cellSize*0.65);
             }
         }
         gc.setStroke(Color.WHITE);

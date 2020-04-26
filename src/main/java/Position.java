@@ -1,11 +1,11 @@
 public class Position {
 
-    public int x;
-    public int y;
+    public int width;   // width
+    public int height;   // height
 
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Position(int width, int height) {
+        this.width = width;
+        this.height = height;
     }
 
     @Override
@@ -13,25 +13,25 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return x == position.x &&
-                y == position.y;
+        return width == position.width &&
+                height == position.height;
     }
 
     public int getDx(Position goal) {
-        if (goal.x - this.x < 0) {
+        if (goal.width - this.width < 0) {
             return -1;
         }
-        if (goal.x - this.x > 0) {
+        if (goal.width - this.width > 0) {
             return 1;
         }
         return 0;
     }
 
     public int getDy(Position goal) {
-        if (goal.y - this.y < 0) {
+        if (goal.height - this.height < 0) {
             return -1;
         }
-        if (goal.y - this.y > 0) {
+        if (goal.height - this.height > 0) {
             return 1;
         }
         return 0;
@@ -39,6 +39,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return "(" + x + ";" + y + ")";
+        return "(" + width + ";" + height + ")";
     }
 }

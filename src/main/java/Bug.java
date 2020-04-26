@@ -1,3 +1,5 @@
+import javafx.beans.property.DoubleProperty;
+
 import java.util.Random;
 
 public class Bug {
@@ -27,7 +29,7 @@ public class Bug {
         this.position = position;
     }
 
-    public double getUnhapiness() {
+    public Double getUnhappiness() {
         return Math.abs( field.getH(position) - idealTemp ) / Field.MAXTEMP;
     }
 
@@ -41,52 +43,67 @@ public class Bug {
 
     public void refresh() {
 
-        double probabilityRandomMove = 0.1;
+        double probabilityRandomMove = 0.0;
         if (rnd.nextDouble() < probabilityRandomMove) {
             randomMove();
         }
-        else if (getUnhapiness() > tolerance) {
+        else if (getUnhappiness() > tolerance) {
             directMove();
         }
     }
 
     private void randomMove() {
+        System.out.print("Random move from " + position);
         int dx = rnd.nextInt(3) - 1;
         int dy = rnd.nextInt(3) - 1;
-        if ( position.x + dx < field.getWidth() && position.x + dx >= 0 &&
-             position.y + dy < field.getHeight() && position.y + dy >= 0 &&
-             !field.isTakeUp(new Position(position.x+dx, position.y+dy))   ) {
-            position.x += dx;
-            position.y += dy;
+        if ( position.width + dx < field.getWidth() && position.width + dx >= 0 &&
+             position.height + dy < field.getHeight() && position.height + dy >= 0 &&
+             !field.isTakeUp(new Position(position.width +dx, position.height +dy))   ) {
+            position.width += dx;
+            position.height += dy;
+            System.out.println(position + " at " + field.getHeight());
         }
+
+        System.out.println(" to " + position);
     }
 
     private void directMove() {
+//        System.out.print("Direct move from " + position);
         Position goalPosition = field.getNearestIdealPoint(idealTemp, position);
+        //System.out.println("Goal position " + goalPosition + " with temp " + field.getH(goalPosition));
         if (goalPosition != null) {
             int dx = position.getDx(goalPosition);
             int dy = position.getDy(goalPosition);
             int tempDx = dx;
 
-            if (field.isTakeUp(new Position(position.x+dx, position.y+dy))) {
+            if (field.isTakeUp(new Position(position.width +dx, position.height +dy))) {
                 dx = 0;
-                if (field.isTakeUp(new Position(position.x + dx, position.y + dy))) {
+                if (field.isTakeUp(new Position(position.width + dx, position.height + dy))) {
                     dx = tempDx;
                     dy = 0;
-                    if (field.isTakeUp(new Position(position.x + dx, position.y + dy))) {
+                    if (field.isTakeUp(new Position(position.width + dx, position.height + dy))) {
                         dx = 0;
                     }
                 }
             }
-            if ( position.x + dx < field.getWidth() && position.x + dx >= 0) {
-                position.x += dx;
+            if ( position.width + dx < field.getWidth() && position.width + dx >= 0) {
+                position.width += dx;
             }
-            if (position.y + dy < field.getHeight() && position.y + dy >= 0)
-                position.y += dy;
+            if (position.height + dy < field.getHeight() && position.height + dy >= 0)
+                position.height += dy;
         }
+//        System.out.println(" to " + position);
     }
 
     public int getId() {
         return id;
+    }
+
+    public static void resetId() {
+        ID = 0;
+    }
+
+    public double getIdealTemp() {
+        return idealTemp;
     }
 }

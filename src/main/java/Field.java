@@ -6,24 +6,24 @@ public class Field {
     private static final double EPS = 1e-5;
     private double[][] t;
     private List<Bug> bugs;
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
     private double intensityEvaporate;
     private double spreadRate;
 
     public Field(int width, int height, double intensityEvaporate, double spreadRate) {
         MAXTEMP = 100;
 
-        this.width = height;
-        this.height = width;
+        this.width = width;
+        this.height = height;
         this.intensityEvaporate = intensityEvaporate;
         this.spreadRate = spreadRate;
 
-        t = new double[width][height];
+        t = new double[height][width];
 
-        for (int i=0; i<width; i++) {
-            for (int j=0; j<height; j++) {
-                t[i][j] = ((double)i+j) / (height + width) * MAXTEMP;
+        for (int h=0; h<height; h++) {
+            for (int w=0; w<width; w++) {
+                t[h][w] = ((double)h+w) / (height + width) * MAXTEMP;
             }
         }
     }
@@ -45,60 +45,60 @@ public class Field {
     public static double MAXTEMP;
 
     public double getH(Position position) {
-        return t[position.x][position.y];
+        return t[position.height][position.width];
     }
 
-    public double getH(int x, int y) {
-        return t[x][y];
+    public double getH(int width, int height) {
+        return t[height][width];
     }
 
     public double getAverageTemperatureEnvironment() {
         double sum = 0.0;
-        for (int i=0; i<height; ++i) {
-            for (int j=0; j<width; j++) {
-                sum += t[i][j];
+        for (int h=0; h<height; ++h) {
+            for (int w=0; w<width; w++) {
+                sum += t[h][w];
             }
         }
         return sum / (height*width);
     }
 
-    private double getAverageTemp(int i, int j) {
+    private double getAverageTemp(int h, int w) {
 
         double sum = .0;
         int c = 0;
 
-        if ( j>1 ) {
-            if ( i>1 ) {
-                sum += t[i - 1][j - 1];
+        if ( w>1 ) {
+            if ( h>1 ) {
+                sum += t[h - 1][w - 1];
                 c++;
             }
-            if ( i < height-1) {
-                sum += t[i + 1][j - 1];
+            if ( h < height-1) {
+                sum += t[h + 1][w - 1];
                 c++;
             }
-            sum += t[i][j-1];
+            sum += t[h][w-1];
             c++;
         }
 
-        if ( i>1 ) {
-            sum += t[i - 1][j];
+        if ( h>1 ) {
+            sum += t[h - 1][w];
             c++;
         }
-        if ( i < height-1) {
-            sum += t[i + 1][j];
+        if ( h < height-1) {
+            sum += t[h + 1][w];
             c++;
         }
 
-        if ( j < width-1 ) {
-            if ( i>1 ) {
-                sum += t[i - 1][j + 1];
+        if ( w < width-1 ) {
+            if ( h>1 ) {
+                sum += t[h - 1][w + 1];
                 c++;
             }
-            if ( i < height-1) {
-                sum += t[i + 1][j + 1];
+            if ( h < height-1) {
+                sum += t[h + 1][w + 1];
                 c++;
             }
-            sum += t[i][j + 1];
+            sum += t[h][w + 1];
             c++;
         }
 
@@ -110,25 +110,24 @@ public class Field {
 
                 for (Bug b : bugs) {
                     try {
-                        t[b.getPosition().x][b.getPosition().y] += b.getHeatingPower();
+                        t[b.getPosition().height][b.getPosition().width] += b.getHeatingPower();
                     }
                     catch (ArrayIndexOutOfBoundsException e) {
-                        System.err.println("X: " + b.getPosition().x);
-                        System.err.println("Y: " + b.getPosition().y);
-                        System.err.println("Bug: " + b.getId());
+                        System.err.println("X: " + b.getPosition().width);
+                        System.err.println("Y: " + b.getPosition().height);
                     }
                 }
         }
 
         double tt[][] =  new double[height][width];
 
-        for (int i=0; i<height; i++) {
-            for (int j=0; j<width; j++) {
-                tt[i][j] = intensityEvaporate * ( t[i][j] +  spreadRate * ( getAverageTemp(i, j) - t[i][j] ));
-                if (tt[i][j] > MAXTEMP)
-                    tt[i][j] = MAXTEMP;
-                if (tt[i][j] < 0)
-                    tt[i][j] = 0;
+        for (int h=0; h<height; h++) {
+            for (int w=0; w<width; w++) {
+                tt[h][w] = intensityEvaporate * ( t[h][w] +  spreadRate * ( getAverageTemp(h, w) - t[h][w] ));
+                if (tt[h][w] > MAXTEMP)
+                    tt[h][w] = MAXTEMP;
+                if (tt[h][w] < 0)
+                    tt[h][w] = 0;
             }
         }
 
@@ -149,10 +148,10 @@ public class Field {
     }
 
     public double getTempPosition(int x, int y) {
-        return t[x][y];
+        return t[y][x];
     }
 
-    public boolean isTakeUp(Position position) {
+    public synchronized boolean isTakeUp(Position position) {
         for (Bug bug: bugs) {
             if (bug.getPosition().equals(position))
                 return true;
@@ -172,16 +171,16 @@ public class Field {
         List<Position> nearestPointList = new LinkedList<Position>();
         double minDifference = Double.MAX_VALUE;
 
-        for (int j=0; j<width; j++) {
-            for (int i=0; i<height; i++) {
-                double difference = Math.abs(t[i][j] - idealTemperature);
+        for (int h=0; h<height; h++) {
+            for (int w=0; w<width; w++) {
+                double difference = Math.abs(t[h][w] - idealTemperature);
                 if (difference < minDifference) {
                     minDifference = difference;
                     nearestPointList.clear();
-                    nearestPointList.add(new Position(i,j));
+                    nearestPointList.add(new Position(w, h));
                 }
                 else if (Math.abs(difference - minDifference) < EPS) {
-                    nearestPointList.add(new Position(i,j));
+                    nearestPointList.add(new Position(w, h));
                 }
             }
         }
@@ -194,7 +193,7 @@ public class Field {
         Position nearestPoint = nearestPointList.get(0);
         double distance = Double.MAX_VALUE;
         for (Position point: nearestPointList) {
-            double d = Math.pow((currentPoint.x - point.x),2) + Math.pow((nearestPoint.y - point.y),2);
+            double d = Math.pow((currentPoint.width - point.width),2) + Math.pow((nearestPoint.height - point.height),2);
             if (d < distance) {
                 distance = d;
                 nearestPoint = point;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -8,10 +9,17 @@
    <children>
       <Canvas fx:id="canvas" height="720.0" layoutX="21.0" layoutY="21.0" onMouseClicked="#getInfo" width="960.0" AnchorPane.topAnchor="20.0" />
       <Button fx:id="button" layoutX="685.0" layoutY="31.0" mnemonicParsing="false" onAction="#go" prefHeight="25.0" prefWidth="200.0" text="Модель" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
-      <Button fx:id="buttonStart" layoutX="837.0" layoutY="53.0" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="200.0" text="Старт" AnchorPane.rightAnchor="20.0" />
-      <TextArea fx:id="area" layoutX="837.0" layoutY="155.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.rightAnchor="20.0" />
+      <Button fx:id="buttonStart" disable="true" layoutX="837.0" layoutY="53.0" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="200.0" text="Старт" AnchorPane.rightAnchor="20.0" />
       <Label fx:id="labelStep" layoutX="837.0" layoutY="109.0" prefHeight="15.0" prefWidth="200.0" text="Крок: 0" AnchorPane.rightAnchor="20.0" />
-      <Button fx:id="buttonStop" layoutX="837.0" layoutY="78.0" mnemonicParsing="false" onAction="#stopModeling" prefHeight="25.0" prefWidth="200.0" text="Стоп" AnchorPane.rightAnchor="20.0" />
+      <Button fx:id="buttonStop" disable="true" layoutX="837.0" layoutY="78.0" mnemonicParsing="false" onAction="#stopModeling" prefHeight="25.0" prefWidth="200.0" text="Стоп" AnchorPane.rightAnchor="20.0" />
       <Label fx:id="averageTemperature" layoutX="936.0" layoutY="132.0" prefHeight="15.0" prefWidth="200.0" text="Середня температура: -" AnchorPane.rightAnchor="20.0" />
+      <TableView fx:id="tableStat" layoutX="1000.0" layoutY="158.0" prefHeight="564.0" prefWidth="200.0" AnchorPane.rightAnchor="20.0">
+        <columns>
+          <TableColumn fx:id="idColumn" prefWidth="30.0" text="ID" />
+          <TableColumn fx:id="tempColumn" prefWidth="50.0" text="Temp" />
+          <TableColumn fx:id="idealTempColumn" prefWidth="50.0" text="Ideal" />
+          <TableColumn fx:id="happyColumn" prefWidth="70.0" text="Happy" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
