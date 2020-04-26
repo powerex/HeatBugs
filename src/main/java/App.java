@@ -11,6 +11,7 @@ public class App extends Application {
         //loader.setController(new Controller());
         Parent root = loader.load();
         Scene scene = new Scene(root);
+        root.getStylesheets().add("/tablestyle.css");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

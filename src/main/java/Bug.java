@@ -106,4 +106,8 @@ public class Bug {
     public double getIdealTemp() {
         return idealTemp;
     }
+
+    public double getCurrentTemp() {
+        return field.getH(position);
+    }
 }

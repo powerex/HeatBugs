@@ -5,21 +5,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="757.0" prefWidth="1220.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<AnchorPane prefHeight="757.0" prefWidth="1267.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
       <Canvas fx:id="canvas" height="720.0" layoutX="21.0" layoutY="21.0" onMouseClicked="#getInfo" width="960.0" AnchorPane.topAnchor="20.0" />
-      <Button fx:id="button" layoutX="685.0" layoutY="31.0" mnemonicParsing="false" onAction="#go" prefHeight="25.0" prefWidth="200.0" text="Модель" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
-      <Button fx:id="buttonStart" disable="true" layoutX="837.0" layoutY="53.0" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="200.0" text="Старт" AnchorPane.rightAnchor="20.0" />
-      <Label fx:id="labelStep" layoutX="837.0" layoutY="109.0" prefHeight="15.0" prefWidth="200.0" text="Крок: 0" AnchorPane.rightAnchor="20.0" />
-      <Button fx:id="buttonStop" disable="true" layoutX="837.0" layoutY="78.0" mnemonicParsing="false" onAction="#stopModeling" prefHeight="25.0" prefWidth="200.0" text="Стоп" AnchorPane.rightAnchor="20.0" />
-      <Label fx:id="averageTemperature" layoutX="936.0" layoutY="132.0" prefHeight="15.0" prefWidth="200.0" text="Середня температура: -" AnchorPane.rightAnchor="20.0" />
-      <TableView fx:id="tableStat" layoutX="1000.0" layoutY="158.0" prefHeight="564.0" prefWidth="200.0" AnchorPane.rightAnchor="20.0">
+      <Button fx:id="button" layoutX="685.0" layoutY="31.0" mnemonicParsing="false" onAction="#go" prefHeight="25.0" prefWidth="249.0" text="Модель" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+      <Button fx:id="buttonStart" disable="true" layoutX="837.0" layoutY="53.0" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="249.0" text="Старт" AnchorPane.rightAnchor="20.0" />
+      <Label fx:id="labelStep" layoutX="837.0" layoutY="109.0" prefHeight="15.0" prefWidth="256.0" text="Крок: 0" AnchorPane.rightAnchor="20.0" />
+      <Button fx:id="buttonStop" disable="true" layoutX="837.0" layoutY="78.0" mnemonicParsing="false" onAction="#stopModeling" prefHeight="25.0" prefWidth="249.0" text="Стоп" AnchorPane.rightAnchor="20.0" />
+      <Label fx:id="averageTemperature" layoutX="936.0" layoutY="132.0" prefHeight="15.0" prefWidth="256.0" text="Середня температура: -" AnchorPane.rightAnchor="20.0" />
+      <TableView id="stat-table" fx:id="tableStat" layoutX="991.0" layoutY="250.0" prefHeight="490.0" prefWidth="256.0" AnchorPane.rightAnchor="20.0">
         <columns>
           <TableColumn fx:id="idColumn" prefWidth="30.0" text="ID" />
-          <TableColumn fx:id="tempColumn" prefWidth="50.0" text="Temp" />
-          <TableColumn fx:id="idealTempColumn" prefWidth="50.0" text="Ideal" />
-          <TableColumn fx:id="happyColumn" prefWidth="70.0" text="Happy" />
+          <TableColumn fx:id="tempColumn" prefWidth="70.0" text="Temp" />
+          <TableColumn fx:id="idealTempColumn" prefWidth="70.0" text="Ideal" />
+          <TableColumn fx:id="happyColumn" text="Happy" />
         </columns>
       </TableView>
+      <Slider fx:id="kSlider" blockIncrement="1" layoutX="991.0" layoutY="216.0" min="0" max="30" prefHeight="16.0" prefWidth="256.0" value="10" />
+      <Label fx:id="kLabel" layoutX="991.0" layoutY="200.0" prefHeight="15.0" prefWidth="256.0" text="Коефіцієнт розповсюдження, k:" />
+      <Slider fx:id="eSlider" blockIncrement="1" layoutX="991.0" layoutY="175.0" max="100" min="90" prefHeight="16.0" prefWidth="256.0" value="95" />
+      <Label fx:id="eLabel" layoutX="991.0" layoutY="160.0" prefHeight="15.0" prefWidth="256.0" text="Коефіцієнт випаровування, e:" />
    </children>
 </AnchorPane>

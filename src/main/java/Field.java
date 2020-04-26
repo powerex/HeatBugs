@@ -202,4 +202,12 @@ public class Field {
         }
         return nearestPoint;
     }
+
+    public void setIntensityEvaporate(double intensityEvaporate) {
+        this.intensityEvaporate = intensityEvaporate;
+    }
+
+    public void setSpreadRate(double spreadRate) {
+        this.spreadRate = spreadRate;
+    }
 }
